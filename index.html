@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zamów Kawę</title>
+    <style>
+        body {
+            font-family: Copperplate Gothic Light, Arial;
+            margin: 0;
+            padding: 0;
+            background-color: #DEB887;
+            color: #333;
+        }
+
+        header {
+            background-color: #6f4e37;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #FFEBCD;
+        }
+
+        h2 {
+            color: #000000;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        input,
+        select,
+        button {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #6f4e37;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #5a3d2e;
+        }
+
+        .pricing {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f2f2f2;
+            border-radius: 8px;
+        }
+
+        .pricing table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .pricing th,
+        .pricing td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Cafe Noir</h1>
+        <marquee behavior="scroll" direction="left">Tylko dziś! Przy zamówieniu powyżej 25 zł, croissant gratis :)</marquee>
+    </header>
+    <main>
+        <h2>Formularz zamówienia</h2>
+        <form id="coffeeOrderForm" method="POST" action="submit_order.php">
+            <label for="name">Imię i nazwisko:</label>
+            <input type="text" id="name" name="name" placeholder="Wpisz swoje imię i nazwisko" required>
+
+            <label for="coffeeType">Wybierz rodzaj kawy:</label>
+            <select id="coffeeType" name="coffeeType" required>
+                <option value="">-- Wybierz kawę --</option>
+                <option value="espresso">Espresso</option>
+                <option value="latte">Latte</option>
+                <option value="cappuccino">Cappuccino</option>
+                <option value="americano">Americano</option>
+                <option value="mocha">Mocha</option>
+                <option value="pumpkin">Pumpkin Spice Latte</option>
+                <option value="gingerbread">Gingerbread Latte</option>
+                <option value="toffiee">Toffie Nut Latte</option>
+            </select>
+
+            <label for="size">Rozmiar:</label>
+            <select id="size" name="size" required>
+                <option value="">-- Wybierz rozmiar --</option>
+                <option value="small">Mała</option>
+                <option value="large">Duża</option>
+            </select>
+
+            <label for="extras">Dodatki:</label>
+            <input type="checkbox" id="sugar" name="extras" value="sugar" /> Cukier<br />
+            <input type="checkbox" id="chocolate" name="extras" value="chocolate" /> Czekolada<br />
+            <input type="checkbox" id="vanilla" name="extras" value="vanilla" /> Syrop waniliowy<br />
+            <input type="checkbox" id="toffiee" name="extras" value="toffiee" /> Syrop toffiee<br />
+            <input type="checkbox" id="cookie" name="extras" value="cookie" /> Dodatkowe ciastko<br />
+
+            <button type="submit">Zamów kawę</button>
+        </form>
+
+        <div class="pricing">
+            <h2>Cennik</h2>
+            <table>
+                <tr>
+                    <th>Produkt</th>
+                    <th>Cena</th>
+                </tr>
+                <tr>
+                    <td>Espresso</td>
+                    <td>10 zł</td>
+                </tr>
+                <tr>
+                    <td>Latte</td>
+                    <td>12 zł</td>
+                </tr>
+                <tr>
+                    <td>Cappuccino</td>
+                    <td>12 zł</td>
+                </tr>
+                <tr>
+                    <td>Americano</td>
+                    <td>8 zł</td>
+                </tr>
+                <tr>
+                    <td>Mocha</td>
+                    <td>14 zł</td>
+                </tr>
+                <tr>
+                    <td>Pumpkin Spice Latte</td>
+                    <td>18 zł</td>
+                </tr>
+                <tr>
+                    <td>Gingerbread Latte</td>
+                    <td>20 zł</td>
+                </tr>
+                <tr>
+                    <td>Toffie Nut Latte</td>
+                    <td>20 zł</td>
+                </tr>
+                <tr>
+                    <td>Dodatki</td>
+                    <td>Mleko (+2 zł), Cukier (+1 zł), Czekolada (+3 zł), Syrop waniliowy (+3 zł), Syrop toffiee (+3 zł), Dodatkowe ciastko (+5 zł)</td>
+                </tr>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        const form = document.getElementById('coffeeOrderForm');
+        form.addEventListener('submit', function (event) {
+            const name = document.getElementById('name').value;
+            const coffeeType = document.getElementById('coffeeType').value;
+            const size = document.getElementById('size').value;
+            const extras = Array.from(
+                document.querySelectorAll('input[name="extras"]:checked')
+            ).map((extra) => extra.value);
+
+            const coffeePrices = {
+                espresso: 10,
+                latte: 12,
+                cappuccino: 12,
+                americano: 8,
+                mocha: 14,
+                pumpkin: 18,
+                gingerbread: 20,
+                toffiee: 20,
+            };
+            const sizePrices = {
+                small: 0,
+                large: 4,
+            };
+            const extrasPrices = {
+                sugar: 1,
+                chocolate: 3,
+                vanilla: 3,
+                toffiee: 3,
+                cookie: 5,
+            };
+
+            const coffeeCost = coffeePrices[coffeeType] || 0;
+            const sizeCost = sizePrices[size] || 0;
+            const extrasCost = extras.reduce(
+                (total, extra) => total + (extrasPrices[extra] || 0),
+                0
+            );
+            const totalCost = coffeeCost + sizeCost + extrasCost;
+
+            
+            const costInput = document.createElement('input');
+            costInput.type = 'hidden';
+            costInput.name = 'totalCost';
+            costInput.value = totalCost;
+            form.appendChild(costInput);
+
+            alert(`Całkowity koszt: ${totalCost} zł`);
+        });
+    </script>
+</body>
+
+</html>
